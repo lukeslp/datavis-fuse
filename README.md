@@ -1,10 +1,6 @@
 # FUSE
 
-Interactive visualization of NASA GISTEMP global temperature anomaly data from 1880-2025.
-
-## What It Does
-
-Shows 140+ years of climate data as a particle system. Starts in the ice age and progresses through warming phases, with particle colors and behaviors changing based on temperature anomalies.
+NASA GISTEMP temperature data, 1880-2025. Particle system starts in the ice age and progresses through warming phases. Colors and physics change based on temperature anomalies over 140+ years.
 
 ## Changes from Ice to Flames
 
