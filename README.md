@@ -1,64 +1,79 @@
-# FUSE
+# Fuse
 
-NASA GISTEMP temperature data, 1880-2025. Particle system starts in the ice age and progresses through warming phases. Colors and physics change based on temperature anomalies over 140+ years.
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Live Site](https://img.shields.io/badge/live-dr.eamer.dev-brightgreen)](https://dr.eamer.dev/datavis/poems/fuse/)
 
-## Changes from Ice to Flames
+NASA GISTEMP global temperature anomaly data from 1880 to 2025, rendered as a particle system. It starts measured and cold. It does not stay that way.
 
-1. **Title**: "ICE TO FLAMES" → "FUSE"
-2. **Color Effect**: Moved dynamic color/glow from year display to temperature indicator
-   - Year display stays neutral (white, 0.25 opacity, no glow)
-   - Temperature gets full color treatment (ice blue → warm yellow → fire red with dynamic shadows)
+## What it does
 
-## Features
+Each monthly temperature reading spawns particles whose color and physics are driven by the anomaly value for that month. Cool anomalies produce slow, blue-tinted particles that drift downward. Warm anomalies produce fast, orange-to-red particles that surge upward. The current year and temperature reading are displayed large in the center.
 
-- **NASA GISTEMP data**: Served locally from nasa-data.csv (updated monthly from NASA)
-- **Local caching**: Stores data in localStorage for faster loads
-- **Fallback data**: Embedded annual averages if fetch fails
-- **Speed control**: Playback speed from 0.1x to 2.0x
-- **Particle physics**: Temperature-based behavior (rising heat, falling cold)
-- **Color coding**:
-  - Ice blue (< 0°C anomaly)
-  - Warm yellow (0°C - 0.5°C)
-  - Fire red/white (> 0.5°C)
+The animation plays forward through 140+ years of data. You can control the speed, pause to examine a specific period, or reset to 1880 and watch it unfold again. The shift from the pre-1950 baseline to the 2000s–2020s is obvious — and it gets more obvious as the particle behavior changes.
 
-## Technical Stack
+## Color encoding
 
-- **Vanilla JavaScript**: No frameworks
-- **Canvas API**: Hardware-accelerated particle rendering
-- **NASA GISTEMP**: GLB.Ts+dSST.csv dataset (local copy)
+| Anomaly | Color |
+|---------|-------|
+| Below 0°C | Ice blue |
+| 0°C – 0.5°C | Warm white/yellow |
+| Above 0.5°C | Deep red to orange |
+
+## Controls
+
+| Control | Function |
+|---------|----------|
+| Speed slider | 0.1x to 2.0x playback |
+| Play/Pause | Hold on a specific year |
+| Reset | Restart from 1880 |
+| ? button | About modal with data links |
+
+## Stack
+
+- Vanilla JavaScript, Canvas API
+- Particle system with temperature-driven physics (velocity, color, glow)
+- NASA GISTEMP CSV loaded and cached locally (no CORS proxy)
+- Helvetica Neue for clean, neutral UI text
+- Font Awesome for playback icons
 
 ## Files
 
-- `index.html` - Complete single-file application (HTML + embedded CSS + script reference)
-- `script.js` - Visualization logic, data fetching, particle system
-- `nasa-data.csv` - Local copy of NASA GISTEMP data (148 years, monthly)
-- `README.md` - This file
+```
+fuse/
+├── index.html      # HTML shell and styles
+├── script.js       # Particle system, data loading, controls
+├── nasa-data.csv   # Local copy of NASA GISTEMP GLB.Ts+dSST.csv
+└── social-card.png # 1200x630 Open Graph image
+```
 
-## Updating NASA Data
+## Updating the data
 
-To update with the latest temperature data:
+NASA publishes updated monthly figures. To pull the latest:
 
 ```bash
 curl -s "https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv" > nasa-data.csv
 ```
 
-## Local Development
+## Data source
 
-Simply serve the directory with any HTTP server:
+[NASA GISS Surface Temperature Analysis (GISTEMP v4)](https://data.giss.nasa.gov/gistemp/)
+Dataset: `GLB.Ts+dSST.csv` — global mean surface temperature anomalies, monthly, 1880–present.
+
+## Running locally
 
 ```bash
 python3 -m http.server 8000
-# Visit http://localhost:8000
+# open http://localhost:8000
 ```
 
-Or open `index.html` directly in a browser (may have CORS restrictions).
-
-## Data Source
-
-NASA Goddard Institute for Space Studies (GISS)
-https://data.giss.nasa.gov/gistemp/
+Opening `index.html` directly may hit CORS restrictions on the CSV. Use the server.
 
 ## Author
 
-Luke Steuber
-https://lukesteuber.com
+Luke Steuber — [lukesteuber.com](https://lukesteuber.com) — [@lukesteuber.com](https://bsky.app/profile/lukesteuber.com) on Bluesky
+
+Part of the [data poems collection](https://dr.eamer.dev/datavis/poems/) at dr.eamer.dev.
+
+## License
+
+MIT
